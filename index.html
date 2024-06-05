@@ -1,12 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assignment1</title>
+	<meta charset="UTF-8">
+	<title>MDIA 2294</title>
+	
+	<style>
+		body{
+			font-family: 'Courier New', Courier, monospace;
+		}
+
+		input{
+			font-family: 'Courier New', Courier, monospace;
+		}
+		button{
+			font-family: 'Courier New', Courier, monospace;
+		}
+	    thead{
+	        font-weight:bold;
+	    }
+	    
+	    td{
+	        padding-left:5px;
+	        padding-right:5px;	        
+	    }
+	    
+	    td.sub-total{
+	        text-align:right;	        
+	    }
+	</style>
 </head>
 <body>
-    <h1> Git is Fun</h1>
-    <p>Github allows</p>
+	<h1>MDIA 2294: ACME Corp Invoice</h1>
+	
+	<table>
+	    <thead>
+	        <tr>
+	            <td>ITEM</td>
+	            <td>DESCRIPTION</td>
+	            <td>QTY</td>
+	            <td>PRICE</td>
+	            <td>LINE TOTAL</td>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr>
+	            <td>1</td>
+	            <td><input id="line-1-description" type="text" size="40" value="Anvil" /></td>
+	            <td><input id="line-1-quantity" type="text" size="3" value="5" /></td>
+	            <td><input id="line-1-price" type="text" size="6" value="35.00" /></td>
+	            <td class="sub-total"><span id="line-1"></span></td>
+	        </tr>
+	        <tr>
+	            <td>2</td>
+	            <td><input id="line-2-description" type="text" size="40" value="Rocket Skates (each)" /></td>
+	            <td><input id="line-2-quantity" type="text" size="3" value="2" /></td>
+	            <td><input id="line-2-price" type="text" size="6" value="24.99" /></td>
+	            <td class="sub-total"><span id="line-2"></span></td>
+	        </tr>
+	        <tr>
+	            <td>3</td>
+	            <td><input id="line-3-description" type="text" size="40" value="Giant Magnet" /></td>
+	            <td><input id="line-3-quantity" type="text" size="3" value="1" /></td>
+	            <td><input id="line-3-price" type="text" size="6" value="125.50" /></td>
+	            <td class="sub-total"><span id="line-3"></span></td>
+	        </tr>
+	        <tr>
+	            <td>4</td>
+	            <td><input id="line-4-description" type="text" size="40" value="Ball bearings" /></td>
+	            <td><input id="line-4-quantity" type="text" size="3" value="500" /></td>
+	            <td><input id="line-4-price" type="text" size="6" value="0.25" /></td>
+	            <td class="sub-total"><span id="line-4"></span></td>
+	        </tr>
+	        <tr>
+	            <td>5</td>
+	            <td><input id="line-5-description" type="text" size="40" value="Portable holes" /></td>
+	            <td><input id="line-5-quantity" type="text" size="3" value="12" /></td>
+	            <td><input id="line-5-price" type="text" size="6" value="15.25" /></td>
+	            <td class="sub-total"><span id="line-5"></span></td>
+	        </tr>
+	    </tbody>
+	    <tfoot>
+	        <tr>
+	            <td colspan="4" style="text-align:right;">SUB TOTAL</td>  
+	            <td class="sub-total"><span id="sub-total"></span></td>	        
+	        </tr>
+	        <tr>
+	            <td colspan="4" style="text-align:right;">DISCOUNT</td>  
+	            <td class="sub-total"><span id="discount"></span></td>	        
+	        </tr>
+	        <tr>
+	            <td colspan="4" style="text-align:right;">TAX</td>  
+	            <td class="sub-total"><span id="tax"></span></td>	        
+	        </tr>
+	        <tr>
+	            <td colspan="4" style="text-align:right;">TOTAL</td>  
+	            <td class="sub-total" style="border-top:solid black 1px"><span id="total"></span></td>	        
+	        </tr>
+	    </tfoot>	    
+	</table>
+	
+	<div><button id="calculate">Calculate</button></div>
+	<div>NOTE: discounts of 10% are given to orders over $250</div>
+
+	<script>
+
+		//global constant variable for tax and discount rate since they will stay consistent throughout the function
+		const DISCOUNT_RATE = 0.10; //10% discount
+		const TAX_PERCENT = 0.12; //12% tax
+
+		//start of function to run calculation on invoice
+	    function calculate() {
+
+		   //Created a local variable to keep a running total as the browser calculates the script. Used the "let" variable as it will be changing as the running total is tallied up.
+			let running_total = 0;
+
+
+			//Item 1
+			//First I had the browser call upon price and quantity of line 1 via ID and store as a variable. The querySelector tells the browser what ID to look at. and .value to find the value that has been inputted.  
+			const line1_price = document.querySelector("#line-1-price").value;
+			//the same process as above to find the inputted value for the quantity.
+			const line1_qty = document.querySelector("#line-1-quantity").value; 
+			//Created a constant variable  and formula to calculate a total price with operands: quantity and price. "*" operator is used to multiply the quantity by price.
+			const line1_total = line1_price * line1_qty;
+			//innerHTML via query selector will show the running total of item 1 in the browser. Included concatenation for dollar symbol and .toFixed for decimal point correction for dollar amount.
+			document.querySelector("#line-1").innerHTML = "$" + line1_total.toFixed(2);
+
+			// "+=" assignment operator to add each item total to the running total 
+			running_total += line1_total;
+
+
+			//Item 2: Refer to above for "Item 1" to see the process for the remaining items in the invoice.
+			const line2_price = document.querySelector("#line-2-price").value;
+			const line2_qty = document.querySelector("#line-2-quantity").value; 
+			const line2_total = line2_price * line2_qty;
+			document.querySelector("#line-2").innerHTML = "$" + line2_total.toFixed(2);
+			running_total += line2_total;
+
+
+			//Item 3 same as Item 1
+			const line3_price = document.querySelector("#line-3-price").value;
+			const line3_qty = document.querySelector("#line-3-quantity").value; 
+			const line3_total = line3_price * line3_qty;
+			document.querySelector("#line-3").innerHTML = "$" + line3_total.toFixed(2);
+			running_total += line3_total;
+
+
+			//Item 4 same as Item 1
+			const line4_price = document.querySelector("#line-4-price").value;
+			const line4_qty = document.querySelector("#line-4-quantity").value; 
+			const line4_total = line4_price * line4_qty;
+			document.querySelector("#line-4").innerHTML = "$" + line4_total.toFixed(2);
+			running_total += line4_total;
+
+
+			//Item 5 same as Item 1
+			const line5_price = document.querySelector("#line-5-price").value;
+			const line5_qty = document.querySelector("#line-5-quantity").value; 
+			const line5_total = line5_price * line5_qty;
+			document.querySelector("#line-5").innerHTML = "$" + line5_total.toFixed(2);
+			running_total += line5_total;
+
+			
+			//Here, is where the running total would be calculated and displayed via sub-total ID BEFORE tax and discount
+			document.querySelector("#sub-total").innerHTML = "$" + running_total.toFixed(2);
+
+
+		//Operation for applying discount
+
+
+			// Ternary operator to add discount if the sub-total is over $250
+			// Used a comparison operator ">" to determine if the subtotal is valid for discount	
+			const discount_total = (running_total > 250) ? (running_total * DISCOUNT_RATE) : 0;
+			
+			//I added "-" to the concatenation to display the amount to be discounted from the sub-total for UX purposes.
+			document.querySelector("#discount").innerHTML = "-$" + discount_total.toFixed(2);
+		
+
+		//Creating an operation to apply that gosh darned tax
+			//the operands of (running_total - discount_total) are applied first to find the taxable amount.
+			const taxable_amount = running_total - discount_total;
+			//Next, the tax total is calculated by finally via "*" operator to find the 12% tax of the taxable amount.
+			const tax_total = taxable_amount * TAX_PERCENT;
+			//Cocatenation to display the amount of tax that will be applied to the invoice.
+			document.querySelector("#tax").innerHTML = "$" + tax_total.toFixed(2);
+
+
+		//FINALLY I added the total cost to the invoice
+
+			//the total cost variable is now calculated by tallying up the taxable amount along with the tax total.
+			const total_cost = taxable_amount + tax_total;
+			document.querySelector("#total").innerHTML = "$" + total_cost.toFixed(2); 
+			
+		}
+
+		//a variable created to for the button to run the function when triggered. document.querySelector is used to refer to the HTML in which the calculate button is located.
+		const calc_btn = document.querySelector("#calculate");
+
+		//this event listener waits for the trigger when the user clicks the button. When triggered, the function 'calculate' is executed.
+		calc_btn.addEventListener("click", calculate);
+
+
+    </script>
 </body>
 </html>
+
+
