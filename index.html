@@ -106,6 +106,10 @@
 
 	<script>
 
+//Samuel Park - A00943561
+//MDIA 2294 - Assignment 1
+//Link to Github: https://github.com/ssypark/assignment-1-2294/blob/main/index.html
+
 		//global constant variable for tax and discount rate since they will stay consistent throughout the function
 		const DISCOUNT_RATE = 0.10; //10% discount
 		const TAX_PERCENT = 0.12; //12% tax
@@ -113,21 +117,25 @@
 		//start of function to run calculation on invoice
 	    function calculate() {
 
-		   //Created a local variable to keep a running total as the browser calculates the script. Used the "let" variable as it will be changing as the running total is tallied up.
+		   	//Created a local variable to keep a running total as the browser calculates the script. 
+			//Used the "let" variable as it will be changing as the running total is tallied up.
 			let running_total = 0;
 
 
 			//Item 1
-			//First I had the browser call upon price and quantity of line 1 via ID and store as a variable. The querySelector tells the browser what ID to look at. and .value to find the value that has been inputted.  
+			//First I had the browser call upon price and quantity value of line 1 via ID and store as a variable. 
+			//The querySelector tells the browser what ID to look at. and .value to find the value that has been inputted.
+			//This line is to find the value for the price input.  
 			const line1_price = document.querySelector("#line-1-price").value;
-			//the same process as above to find the inputted value for the quantity.
+			//the same process as above to find the value input for the quantity.
 			const line1_qty = document.querySelector("#line-1-quantity").value; 
-			//Created a constant variable  and formula to calculate a total price with operands: quantity and price. "*" operator is used to multiply the quantity by price.
+			//Created a constant variable for the line 1 total and formula to calculate a total price with operands: quantity and price. 
+			//"*" operator is used to multiply the quantity by the price.
 			const line1_total = line1_price * line1_qty;
-			//innerHTML via query selector will show the running total of item 1 in the browser. Included concatenation for dollar symbol and .toFixed for decimal point correction for dollar amount.
+			//innerHTML via query selector will display the running total of item 1 in the browser. Included concatenation for dollar symbol and .toFixed for decimal point correction for dollar amount.
 			document.querySelector("#line-1").innerHTML = "$" + line1_total.toFixed(2);
 
-			// "+=" assignment operator to add each item total to the running total 
+			// "+=" assignment operator to add each item total to the running total. 
 			running_total += line1_total;
 
 
@@ -163,7 +171,7 @@
 			running_total += line5_total;
 
 			
-			//Here, is where the running total would be calculated and displayed via sub-total ID BEFORE tax and discount
+			//Here, is where the running total would be calculated/tallied and displayed via sub-total ID BEFORE tax and discount
 			document.querySelector("#sub-total").innerHTML = "$" + running_total.toFixed(2);
 
 
@@ -179,18 +187,20 @@
 		
 
 		//Creating an operation to apply that gosh darned tax
+			// a variable for the taxable amount is created
 			//the operands of (running_total - discount_total) are applied first to find the taxable amount.
 			const taxable_amount = running_total - discount_total;
-			//Next, the tax total is calculated by finally via "*" operator to find the 12% tax of the taxable amount.
+			//Next, the tax total is created and is calculated via "*" operator to find the 12% tax of the taxable amount.
 			const tax_total = taxable_amount * TAX_PERCENT;
 			//Cocatenation to display the amount of tax that will be applied to the invoice.
 			document.querySelector("#tax").innerHTML = "$" + tax_total.toFixed(2);
 
 
-		//FINALLY I added the total cost to the invoice
+		//FINALLY I add the total cost to the invoice
 
-			//the total cost variable is now calculated by tallying up the taxable amount along with the tax total.
+			//the total cost variable is now calculated by tallying up the taxable amount(including the discount if there is any) along with the tax total.
 			const total_cost = taxable_amount + tax_total;
+			//innerHTML to display the grand total for the invoice
 			document.querySelector("#total").innerHTML = "$" + total_cost.toFixed(2); 
 			
 		}
@@ -198,7 +208,7 @@
 		//a variable created to for the button to run the function when triggered. document.querySelector is used to refer to the HTML in which the calculate button is located.
 		const calc_btn = document.querySelector("#calculate");
 
-		//this event listener waits for the trigger when the user clicks the button. When triggered, the function 'calculate' is executed.
+		//this event listener waits for the trigger when the user clicks the button. When triggered, the function 'calculate' aka calc_btn is executed.
 		calc_btn.addEventListener("click", calculate);
 
 		// Get well soon!
